@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     chrome.storage.local.get("mapstringS", function (data) {
-        document.getElementById("frame").setAttribute('src', `${data.ko}`);
+        document.getElementById("frame").setAttribute('src', `${data.mapstringS}`);
     });
     // Listen for messages to update country
     chrome.runtime.onMessage.addListener((message) => {
@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.onChanged.addListener((changes, areaName) => {
         if (areaName === "local" && changes.detectedCountry) {
             countryDisplay.textContent = `Country: ${changes.detectedCountry.newValue}`;
+        }
+        if (areaName === "local" && changes.mapstringS) {
+            document.getElementById("frame").setAttribute('src', `${changes.mapstringS.newValue}`);
         }
     });
     // Handle button click to send a message to the background script
