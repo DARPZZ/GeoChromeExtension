@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    chrome.storage.local.get("ko", function (data) {
+    chrome.storage.local.get("mapstringS", function (data) {
        document.getElementById("frame").setAttribute('src', `${data.ko}`)
     });
   

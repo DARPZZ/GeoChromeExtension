@@ -3,49 +3,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 let foundJavaScript = false;
 const lookup = require("coordinate_to_country");
 const alpha3hash_1 = require("./alpha3hash");
+const map_1 = require("./map");
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "startListening") {
         foundJavaScript = false;
         const listener = function (details) {
-            if (foundJavaScript)
+            if (foundJavaScript || !details.url.startsWith("https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?")) {
                 return;
-            if (details.responseHeaders) {
-                const contentTypeHeader = details.responseHeaders.find(header => header.name.toLowerCase() === "content-type");
-                if (contentTypeHeader && contentTypeHeader.value.includes("javascript")) {
-                    fetch(details.url)
-                        .then(response => response.text())
-                        .then(text => {
-                        const match = text.match(/-?\d+\.\d+,\s*-?\d+\.\d+/);
-                        if (match && match[0]) {
-                            let coordinates = match[0].replace(/[\[\]\s]/g, '');
-                            let [lat, long] = coordinates.split(",");
-                            try {
-                                let latNum = parseFloat(lat);
-                                let longNum = parseFloat(long);
-                                let country = lookup(latNum, longNum);
-                                let fullCountry = alpha3hash_1.default[country];
-                                if (fullCountry != undefined) {
-                                    chrome.storage.local.set({ detectedCountry: fullCountry });
-                                }
-                                else {
-                                    chrome.storage.local.set({ detectedCountry: country });
-                                }
-                                foundJavaScript = true;
-                                chrome.webRequest.onCompleted.removeListener(listener);
-                                chrome.storage.local.set({ ko: "https://maps.google.com/maps?q=48.13209658371673,17.10839892702297&z=5&output=embed" });
-                            }
-                            catch (error) {
-                                console.log("Error converting coordinates to country:", error);
-                            }
-                        }
-                        else {
-                            console.log("No coordinates found in the response text.");
-                        }
-                    })
-                        .catch(err => console.error("Error fetching JavaScript response body:", err));
-                }
             }
+            fetch(details.url)
+                .then(response => response.text())
+                .then(text => {
+                const match = text.match(/-?\d+\.\d+,\s*-?\d+\.\d+/);
+                if (match) {
+                    let [lat, long] = match[0].split(",").map(Number);
+                    let country = lookup(lat, long);
+                    let fullCountry = alpha3hash_1.default[country] || country;
+                    chrome.storage.local.set({
+                        detectedCountry: fullCountry,
+                        mapstringS: (0, map_1.default)(lat, long),
+                    });
+                    foundJavaScript = true;
+                    chrome.webRequest.onCompleted.removeListener(listener);
+                }
+            })
+                .catch(err => console.error("Error fetching response body:", err));
         };
-        chrome.webRequest.onCompleted.addListener(listener, { urls: ["<all_urls>"] }, ["responseHeaders"]);
+        chrome.webRequest.onCompleted.addListener(listener, { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] }, ["responseHeaders"]);
     }
 });
