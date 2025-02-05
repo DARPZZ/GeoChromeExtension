@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
             chrome.storage.local.set({
               detectedCountry: fullCountry,
-              mapstringS: getMapString(lat, long,6),
+              mapstringS: getMapString(lat, long,5),
             });
 
             foundJavaScript = true;

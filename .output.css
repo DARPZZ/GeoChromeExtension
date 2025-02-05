@@ -548,9 +548,6 @@
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
-  .mt-14 {
-    margin-top: calc(var(--spacing) * 14);
-  }
   .block {
     display: block;
   }
@@ -569,21 +566,6 @@
   .h-full {
     height: 100%;
   }
-  .w-2xl {
-    width: var(--container-2xl);
-  }
-  .w-4 {
-    width: calc(var(--spacing) * 4);
-  }
-  .w-5 {
-    width: calc(var(--spacing) * 5);
-  }
-  .w-52 {
-    width: calc(var(--spacing) * 52);
-  }
-  .w-5xl {
-    width: var(--container-5xl);
-  }
   .w-44 {
     width: calc(var(--spacing) * 44);
   }
@@ -598,9 +580,6 @@
   }
   .resize {
     resize: both;
-  }
-  .flex-col {
-    flex-direction: column;
   }
   .flex-row {
     flex-direction: row;
@@ -631,9 +610,6 @@
   .border-black {
     border-color: var(--color-black);
   }
-  .border-gray-300 {
-    border-color: var(--color-gray-300);
-  }
   .bg-gradient-to-br {
     --tw-gradient-position: to bottom right in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
@@ -657,26 +633,11 @@
   .p-3 {
     padding: calc(var(--spacing) * 3);
   }
-  .p-4 {
-    padding: calc(var(--spacing) * 4);
-  }
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
-  .p-36 {
-    padding: calc(var(--spacing) * 36);
-  }
-  .py-2 {
-    padding-block: calc(var(--spacing) * 2);
-  }
-  .py-2\.5 {
-    padding-block: calc(var(--spacing) * 2.5);
-  }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
-  }
-  .py-5 {
-    padding-block: calc(var(--spacing) * 5);
   }
   .pt-5 {
     padding-top: calc(var(--spacing) * 5);
@@ -684,8 +645,8 @@
   .pt-16 {
     padding-top: calc(var(--spacing) * 16);
   }
-  .pt-28 {
-    padding-top: calc(var(--spacing) * 28);
+  .pl-5 {
+    padding-left: calc(var(--spacing) * 5);
   }
   .text-center {
     text-align: center;
@@ -694,6 +655,10 @@
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
   }
+  .text-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--tw-leading, var(--text-3xl--line-height));
+  }
   .text-5xl {
     font-size: var(--text-5xl);
     line-height: var(--tw-leading, var(--text-5xl--line-height));
@@ -701,6 +666,10 @@
   .text-lg {
     font-size: var(--text-lg);
     line-height: var(--tw-leading, var(--text-lg--line-height));
+  }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
   }
   .font-extrabold {
     --tw-font-weight: var(--font-weight-extrabold);
@@ -713,9 +682,6 @@
   .font-semibold {
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
-  }
-  .text-black {
-    color: var(--color-black);
   }
   .text-white {
     color: var(--color-white);
@@ -770,6 +736,16 @@
   .outline-none {
     --tw-outline-style: none;
     outline-style: none;
+  }
+  .hover\:scale-102 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-scale-x: 102%;
+        --tw-scale-y: 102%;
+        --tw-scale-z: 102%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
   }
   .hover\:scale-105 {
     &:hover {
