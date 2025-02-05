@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     let fullCountry = alpha3hash_1.default[country] || country;
                     chrome.storage.local.set({
                         detectedCountry: fullCountry,
-                        mapstringS: (0, map_1.default)(lat, long),
+                        mapstringS: (0, map_1.default)(lat, long, 6),
                     });
                     foundJavaScript = true;
                     chrome.webRequest.onCompleted.removeListener(listener);

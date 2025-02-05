@@ -8,36 +8,37 @@
   <body
     class="p-6 bg-gradient-to-br from-blue-900 to-purple-700 text-white rounded-xl shadow-lg"
   >
-    <div class="flex flex-row">
-      <div class="text-center">
-        <h1 class="text-2xl font-extrabold mb-6 drop-shadow-lg">
-          Geoguessr Hack
-        </h1>
+    <div class="w-full justify-center items-center h-full">
+      <h1 class="text-5xl text-center font-extrabold  drop-shadow-lg">
+        Geoguessr Hack
+      </h1>
+      <div class="flex flex-row items-center ">
+        <div class="text-center">
+          <button
+            class=" py-4 w-44 text-lg font-semibold rounded-xl bg-gradient-to-br from-pink-500 to-orange-400 hover:from-orange-400 hover:to-pink-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-white shadow-md"
+            id="messageButton"
+          >
+            Get Country
+          </button> 
 
-        <button
-          class="relative w-full h-14 text-lg font-semibold rounded-xl bg-gradient-to-br from-pink-500 to-orange-400 hover:from-orange-400 hover:to-pink-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-white shadow-md"
-          id="messageButton"
-        >
-          Get Coordinates
-        </button>
-
-        <h3 class="mt-6 text-lg font-medium">Detected Country</h3>
-        <p
-          id="countryDisplay"
-          class="w-full text-center mt-2 p-3 text-lg text-black rounded-lg shadow-inner border-2 border-gray-300 outline-none focus:ring-2 transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-pink-500"
-          placeholder="Waiting..."
-          readonly
-        ></p>
-      </div>
-      <div class="p-5">
-        <iframe
-          id="frame"
-          width="600"
-          height="450"
-          frameborder="0"
-          style="border: 1px solid black"
-        >
-        </iframe>
+          <h3 class=" pt-16 text-lg font-medium">Detected Country</h3>
+          <p
+            id="countryDisplay"
+            class="w-full text-center mt-2 p-3 text-lg text-white rounded-lg shadow-inner border-2 border-black outline-none focus:ring-2 transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-pink-500"
+            placeholder="Waiting..."
+            readonly
+          ></p>
+        </div>
+        <div class="p-4">
+          <iframe
+            id="frame"
+            width="400"
+            height="400"
+            frameborder="0"
+            style="border: 1px solid black"
+          >
+          </iframe>
+        </div>
       </div>
     </div>
     <script src="dist/popup.js"></script>
