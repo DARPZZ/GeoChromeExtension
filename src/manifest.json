@@ -1,0 +1,26 @@
+{
+  "name": "GEO",
+  "version": "1.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "dist/background.bundle.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "http://*/*",   
+    "https://*/*"
+  ],
+  
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "paw.png",
+    "48": "paw.png",
+    "128": "paw.png"
+  }
+}

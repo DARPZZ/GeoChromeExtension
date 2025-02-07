@@ -2,12 +2,9 @@
     "compilerOptions": {
       "target": "ES6",
       "module": "CommonJS",
-      "outDir": "dist",
+      "outDir": "src/dist",
       "strict": false,
       "paths": {
-    "crypto": [
-      "./node_modules/crypto-js"
-    ]
   }
     }
   }
