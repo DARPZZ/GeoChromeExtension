@@ -168,7 +168,9 @@ const countryCodeMap: { [key: string]: string } = {
     "ARE": "United Arab Emirates",
     "ARG": "Argentina",
     "PRT": "Portugal",
-    "BGD": "Bangladesh"
+    "BGD": "Bangladesh",
+    "LKA": "Sri Lanka",
+    "ROU": "Romania"
   };
   
   export default countryCodeMap;
