@@ -9,26 +9,48 @@
     class="p-6 bg-gradient-to-br from-blue-900 to-purple-700 text-white rounded-xl shadow-lg"
   >
     <div class="w-full justify-center items-center h-full">
-      <h1 class="text-5xl text-center font-extrabold  drop-shadow-lg">
+      <h1 class="text-5xl text-center font-extrabold drop-shadow-lg">
         Geoguessr Hack
       </h1>
-      <div class="flex flex-row items-center ">
+      <div class="flex flex-row items-center">
         <div class="text-center w-full h-full">
           <button
-            class=" py-4 w-44 text-2xl font-semibold rounded-xl bg-gradient-to-br from-pink-500 to-orange-400 hover:from-orange-400 hover:to-pink-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-white shadow-md"
+            class="py-4 w-44 text-2xl font-semibold rounded-xl bg-gradient-to-br from-pink-500 to-orange-400 hover:from-orange-400 hover:to-pink-500 transition-all duration-300 ease-in-out transform hover:scale-105 text-white shadow-md"
             id="messageButton"
           >
             Get Country
-          </button> 
+          </button>
 
-          <h3 class=" pt-16 text-lg font-medium">Detected Country:</h3>
+          <h3 class="pt-16 text-lg font-medium">Detected Country:</h3>
           <p
             id="countryDisplay"
             class="w-full font-bold text-center mt-2 p-3 text-lg text-white rounded-lg shadow-inner border-2 border-black outline-none focus:ring-2 transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-pink-500"
             placeholder="Waiting..."
             readonly
           ></p>
+          <div>
+            <h1 class="font bold text-2xl mt-10">Zoom level</h1>
+            <div class="mt-5 text-xl font-bold grid grid-cols-4 gap-5">
+              <div>
+                <button value="4" id="zoom4" class="">4</button>
+              </div>
+              <div>
+                <button value="5" id="zoom5"  class="">5</button>
+              </div>
+              <div>
+                <button value="6" id="zoom6"  class="">6</button>
+              </div>
+              <div>
+                <button value="7" id="zoom7"  class="">7</button>
+              </div>
+              <div>
+                <button value="8" id="zoom8"  class="">8</button>
+              </div>
+
+            </div>
+          </div>
         </div>
+
         <div class="pt-5">
           <iframe
             id="frame"
