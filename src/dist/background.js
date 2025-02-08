@@ -28,7 +28,6 @@ function GetCountryAndCordinates() {
                 let [lat, long] = match[0].split(",").map(Number);
                 let country = lookup(lat, long);
                 let fullCountry = alpha3hash_1.default[country] || country;
-                console.warn("zoom: " + zoom);
                 chrome.storage.local.set({
                     detectedCountry: fullCountry,
                     mapstringS: (0, map_1.default)(lat, long, zoom),
