@@ -13,17 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-
-
     chrome.storage.local.get("mapstringS", function (data) {
        document.getElementById("frame").setAttribute('src', `${data.mapstringS}`)
     });
-    
-
-    
   
-  
-    // Listen for messages to update country
     chrome.runtime.onMessage.addListener((message) => {
       if (message.action === "updateCountry") {
         countryDisplay.textContent = `Country: ${message.fullCountry}`;
@@ -31,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   
-    // Listen for changes in storage and update the country display
     chrome.storage.onChanged.addListener((changes, areaName) => {
       if (areaName === "local" && changes.detectedCountry) {
         countryDisplay.textContent = `Country: ${changes.detectedCountry.newValue}`;
@@ -48,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     createEventListener("zoom7")
     createEventListener("zoom8")
 
-    // Handle button click to send a message to the background script
     document.getElementById("messageButton").addEventListener("click", () => {
       chrome.runtime.sendMessage({ action: "startListening" }, (response) => {
         if (chrome.runtime.lastError) {
