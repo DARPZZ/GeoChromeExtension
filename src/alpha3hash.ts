@@ -170,7 +170,9 @@ const countryCodeMap: { [key: string]: string } = {
     "PRT": "Portugal",
     "BGD": "Bangladesh",
     "LKA": "Sri Lanka",
-    "ROU": "Romania"
+    "ROU": "Romania",
+    "SVK": "Slovakia",
+    "ESP": "Spain"
   };
   
   export default countryCodeMap;
