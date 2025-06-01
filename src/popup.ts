@@ -1,5 +1,4 @@
 
-
 let framdata;
 document.addEventListener("DOMContentLoaded", function () {
     const countryDisplay = document.getElementById("countryDisplay");
