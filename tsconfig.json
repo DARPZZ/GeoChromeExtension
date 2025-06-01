@@ -4,6 +4,7 @@
       "module": "CommonJS",
       "outDir": "src/dist",
       "strict": false,
+      "lib": ["dom", "esnext"],
       "paths": {
   }
     }

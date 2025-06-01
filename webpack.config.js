@@ -26,7 +26,9 @@ module.exports = {
   },
   optimization: {
     usedExports: false,
+    minimize: true,
   },
+  
   module: {
     rules: [
       {
