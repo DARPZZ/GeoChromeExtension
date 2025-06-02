@@ -1,6 +1,6 @@
 {
   "name": "GEO",
-  "version": "1.1",
+  "version": "1.1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
@@ -10,9 +10,16 @@
     "activeTab",
     "webRequest"
   ],
+  
   "host_permissions": [
     "http://*/*",   
     "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.geoguessr.com/*"],
+      "js": ["content.js"]
+    }
   ],
   
   "action": {

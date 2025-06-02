@@ -1,29 +1,38 @@
 import countryCodeMap from "./alpha3hash";
+import countryCodeMapISO3166 from "./alpha2hash";
 import getMapString from "./map";
 let zoom = 5;
 
-const geocoder = new google.maps.Geocoder();
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (request, sender, message) => {
   if (request.action === "geocode") {
+    console.warn("content")
     const { lat, lon } = request;
 
-    geocoder.geocode({ location: { lat, lng: lon } }, (results, status) => {
-      if (status === "OK" && results.length) {
-        const countryComp = results[0].address_components.find(comp =>
-          comp.types.includes("country")
-        );
-        const countryCode = countryComp?.short_name; // "US"
-        const fullCountry = countryCodeMap[countryCode] || countryCode;
+    try {
+      
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`;
 
-        chrome.storage.local.set({
-          detectedCountry: fullCountry,
-          mapstringS: getMapString(lat, lon, zoom),
-        });
+      const response = await fetch(url, {
+        headers: {
+          "User-Agent": "Nejtak/1.0", 
+        },
+      });
 
-      } else {
-        console.error("Geocoder failed:", status);
-      }
-    });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const data = await response.json();
+
+      const countryCode = data.address?.country_code?.toUpperCase();
+
+      const fullCountry = countryCodeMapISO3166[countryCode] || countryCode || "Unknown";
+
+      chrome.storage.local.set({
+        detectedCountry: fullCountry,
+        mapstringS: getMapString(lat, lon, zoom),
+      });
+
+    } catch (error) {
+      console.error("Nominatim geocoder failed:", error);
+    }
   }
 });

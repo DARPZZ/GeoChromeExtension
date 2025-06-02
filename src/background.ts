@@ -1,4 +1,5 @@
 let foundJavaScript = false;
+
 const listener = function (details) {
   if (
     foundJavaScript ||
@@ -6,7 +7,7 @@ const listener = function (details) {
   ) {
     return;
   }
-
+console.log("Background script loaded");
   fetch(details.url)
     .then(response => response.text())
     .then(text => {
@@ -14,16 +15,26 @@ const listener = function (details) {
       if (match) {
         let [lat, lon] = match[0].split(",").map(Number);
         foundJavaScript = true;
-        chrome.webRequest.onCompleted.removeListener(listener);
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-          if (tabs[0]?.id) {
-            chrome.tabs.sendMessage(tabs[0].id, {
-              action: "geocode",
-              lat,
-              lon,
-            });
-          }
+        
+        // chrome.runtime.sendMessage({
+        //   action: "geocode",
+        //   lat,
+        //   lon,
+        // });
+        chrome.tabs.query({
+          active: true,
+          currentWindow: true
+        }, (tabs) => {
+          const activeTab = tabs[0];
+          chrome.tabs.sendMessage(activeTab.id, { 
+            action: "geocode",
+            lat: lat,
+            lon: lon
+          });
         });
+
+        chrome.webRequest.onCompleted.removeListener(listener);
+        
       }
     })
     .catch(err => console.error("Error fetching response body:", err));
