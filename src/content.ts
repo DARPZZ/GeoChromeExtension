@@ -5,7 +5,6 @@ let zoom = 5;
 
 chrome.runtime.onMessage.addListener(async (request, sender, message) => {
   if (request.action === "geocode") {
-    console.warn("content")
     const { lat, lon } = request;
 
     try {

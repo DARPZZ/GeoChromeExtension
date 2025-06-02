@@ -15,12 +15,6 @@ console.log("Background script loaded");
       if (match) {
         let [lat, lon] = match[0].split(",").map(Number);
         foundJavaScript = true;
-        
-        // chrome.runtime.sendMessage({
-        //   action: "geocode",
-        //   lat,
-        //   lon,
-        // });
         chrome.tabs.query({
           active: true,
           currentWindow: true
@@ -34,7 +28,6 @@ console.log("Background script loaded");
         });
 
         chrome.webRequest.onCompleted.removeListener(listener);
-        
       }
     })
     .catch(err => console.error("Error fetching response body:", err));
