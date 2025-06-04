@@ -172,7 +172,26 @@ const countryCodeMapAlpha2: { [key: string]: string } = {
   "RO": "Romania",
   "SK": "Slovakia",
   "ES": "Spain",
-  "US": "United States Of America"
+  "US": "United States Of America",
+  "AF": "Afghanistan",
+  "AL": "Albania",
+  "DZ": "Algeria",
+  "AD": "Andorra",
+  "AO": "Angola",
+  "AG": "Antigua and Barbuda",
+  "AM": "Armenia",
+  "AZ": "Azerbaijan",
+  "BS": "Bahamas",
+  "BH": "Bahrain",
+  "BB": "Barbados",
+  "BY": "Belarus",
+  "BZ": "Belize",
+  "SR": "Suriname",
+  "TJ": "Tajikistan",
+  "TZ": "Tanzania, United Republic of",
+  "TN": "Tunisia",
+  "TM": "Turkmenistan",
+  "UZ": "Uzbekistan"
 };
 
 export default countryCodeMapAlpha2;
