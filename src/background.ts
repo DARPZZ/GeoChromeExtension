@@ -1,3 +1,4 @@
+import { CheckDifForLongitudeAndLatitude } from "./DiffChecker";
 let hasSeenGeoRequest = false;
 
 async function Listener(details) {
@@ -22,18 +23,19 @@ async function Listener(details) {
 
     const lat = parseFloat(match[1]);
     const lon = parseFloat(match[2]);
+    if(CheckDifForLongitudeAndLatitude(lon,lat))
+    {
+      hasSeenGeoRequest = false;
+    }
 
     const tabId = details.tabId;
     if (tabId >= 0) {
-      console.log("Sending geocode message to tab:", tabId);
       chrome.tabs.sendMessage(tabId, {
         action: "geocode",
         lat: lat,
         lon: lon
       });
-    } else {
-      console.warn("Tab id blev ikke fundet");
-    }
+    } 
   } catch (error) {
     console.error("Error in Listener:", error);
   }
