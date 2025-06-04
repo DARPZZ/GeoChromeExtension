@@ -32,13 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-   
-    createEventListener("zoom4")
-    createEventListener("zoom5")
-    createEventListener("zoom6")
-    createEventListener("zoom7")
-    createEventListener("zoom8")
-
     document.getElementById("messageButton").addEventListener("click", () => {
       chrome.runtime.sendMessage({ action: "startListening" }, (response) => {
         if (chrome.runtime.lastError) {
@@ -48,19 +41,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
-  });
-
-  function createEventListener(zoom : string)
-  {
-    document.getElementById(zoom).addEventListener("click", ()=>{
-      const inputElement = document.getElementById(zoom) as HTMLInputElement;
-      const inputValue = inputElement.value;
-      chrome.runtime.sendMessage({action: "zoomLevelValue", value: inputValue},(response)=>{
-        if (chrome.runtime.lastError) {
-          console.log("Error sending message:", chrome.runtime.lastError);
-        } else {
-          console.log(response?.status || "No response");
-        }
-      })
-    });
-  }
+});

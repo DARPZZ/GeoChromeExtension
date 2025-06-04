@@ -1,1 +1,0 @@
-(()=>{"use strict";var e;e={},Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e,t,u){let o;return o=`https://maps.google.com/maps?q=${e},${t}&z=${u}&output=embed`,o}})();

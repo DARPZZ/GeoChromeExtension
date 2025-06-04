@@ -1,45 +1,68 @@
-let foundJavaScript = false;
+let hasSeenGeoRequest = false;
 
-const listener = function (details) {
-  if (
-    foundJavaScript ||
-    !details.url.startsWith("https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?")
-  ) {
-    return;
+async function Listener(details) {
+  if (hasSeenGeoRequest) return;
+  hasSeenGeoRequest = true;
+
+  try {
+    const response = await fetch(details.url, {
+      headers: { "User-Agent": "MyExtension/1.0" }
+    });
+    if (!response.ok) {
+      console.error("Request failed with status:", response.status);
+      return;
+    }
+
+    const text = await response.text();
+    const match = text.match(/(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/);
+    if (!match) {
+      console.warn("No lat/lon match found in response body");
+      return;
+    }
+
+    const lat = parseFloat(match[1]);
+    const lon = parseFloat(match[2]);
+
+    const tabId = details.tabId;
+    if (tabId >= 0) {
+      console.log("Sending geocode message to tab:", tabId);
+      chrome.tabs.sendMessage(tabId, {
+        action: "geocode",
+        lat: lat,
+        lon: lon
+      });
+    } else {
+      console.warn("Tab id blev ikke fundet");
+    }
+  } catch (error) {
+    console.error("Error in Listener:", error);
   }
-console.log("Background script loaded");
-  fetch(details.url)
-    .then(response => response.text())
-    .then(text => {
-      const match = text.match(/-?\d+\.\d+,\s*-?\d+\.\d+/);
-      if (match) {
-        let [lat, lon] = match[0].split(",").map(Number);
-        foundJavaScript = true;
-        chrome.tabs.query({
-          active: true,
-          currentWindow: true
-        }, (tabs) => {
-          const activeTab = tabs[0];
-          chrome.tabs.sendMessage(activeTab.id, { 
-            action: "geocode",
-            lat: lat,
-            lon: lon
-          });
-        });
+}
 
-        chrome.webRequest.onCompleted.removeListener(listener);
-      }
-    })
-    .catch(err => console.error("Error fetching response body:", err));
-};
+chrome.runtime.onStartup.addListener(() => {
+  hasSeenGeoRequest = false;
+});
 
-chrome.runtime.onMessage.addListener((request) => {
+chrome.webRequest.onCompleted.addListener(
+  Listener,
+  { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] },
+  ["responseHeaders"]
+);
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startListening") {
-    foundJavaScript = false;
+    hasSeenGeoRequest = false;
+    try {
+      chrome.webRequest.onCompleted.removeListener(Listener);
+    } catch (e) {
+      console.warn("Listener removal failed or not registered yet", e);
+    }
+
     chrome.webRequest.onCompleted.addListener(
-      listener,
+      Listener,
       { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] },
       ["responseHeaders"]
     );
+    sendResponse({ status: "Listener restarted" });
   }
 });
