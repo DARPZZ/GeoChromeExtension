@@ -2,7 +2,6 @@
 let framdata;
 document.addEventListener("DOMContentLoaded", function () {
     const countryDisplay = document.getElementById("countryDisplay");
-    console.log(document.getElementById("zoom"));
     // Retrieve and display the stored country on page load
     chrome.storage.local.get("detectedCountry", function (data) {
       if (data.detectedCountry) {
@@ -32,13 +31,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    document.getElementById("messageButton").addEventListener("click", () => {
-      chrome.runtime.sendMessage({ action: "startListening" }, (response) => {
-        if (chrome.runtime.lastError) {
-          console.log("Error sending message:", chrome.runtime.lastError);
-        } else {
-          console.log(response?.status || "No response");
-        }
-      });
-    });
+    // document.getElementById("messageButton").addEventListener("click", () => {
+    //   chrome.runtime.sendMessage({ action: "startListening" }, (response) => {
+    //     if (chrome.runtime.lastError) {
+    //       console.log("Error sending message:", chrome.runtime.lastError);
+    //     } else {
+    //       console.log(response?.status || "No response");
+    //     }
+    //   });
+    // });
 });
