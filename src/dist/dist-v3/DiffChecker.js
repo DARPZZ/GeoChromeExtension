@@ -1,1 +1,0 @@
-(()=>{"use strict";var e={};(()=>{var t=e;Object.defineProperty(t,"__esModule",{value:!0}),t.CheckDifForLongitudeAndLatitude=function(e,t){return e>e+r||t>t+r||(e<e-n||t<t+n)};const r=.5,n=.5})()})();

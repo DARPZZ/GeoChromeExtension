@@ -1,10 +1,10 @@
-import { CheckDifForLongitudeAndLatitude } from "./DiffChecker";
+let latestKnowLat: number | null = null;
+let latestKnowLon: number | null = null;
+const offset: number = 0.5;
 let hasSeenGeoRequest = false;
-
 async function Listener(details) {
   if (hasSeenGeoRequest) return;
   hasSeenGeoRequest = true;
-
   try {
     const response = await fetch(details.url, {
       headers: { "User-Agent": "MyExtension/1.0" }
@@ -23,37 +23,44 @@ async function Listener(details) {
 
     const lat = parseFloat(match[1]);
     const lon = parseFloat(match[2]);
-    if(CheckDifForLongitudeAndLatitude(lon,lat))
-    {
-      hasSeenGeoRequest = false;
+    hasSeenGeoRequest = false;
+    if (latestKnowLat !== null &&latestKnowLon !== null && Math.abs(lat - latestKnowLat) < offset &&Math.abs(lon - latestKnowLon) < offset) {
+      return;
+    }
+    else{
+      const tabId = details.tabId;
+      if (tabId >= 0) {
+        chrome.tabs.sendMessage(tabId, {
+          action: "geocode",
+          lat,
+          lon
+        });
+      }
+    latestKnowLat = lat;
+    latestKnowLon = lon;
+    return;
     }
 
-    const tabId = details.tabId;
-    if (tabId >= 0) {
-      chrome.tabs.sendMessage(tabId, {
-        action: "geocode",
-        lat: lat,
-        lon: lon
-      });
-    } 
   } catch (error) {
     console.error("Error in Listener:", error);
   }
 }
 
 chrome.runtime.onStartup.addListener(() => {
-  hasSeenGeoRequest = false;
+  latestKnowLat = null;
+  latestKnowLon = null;
 });
 
 chrome.webRequest.onCompleted.addListener(
   Listener,
-  { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] },
-  ["responseHeaders"]
+  { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] }
 );
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startListening") {
     hasSeenGeoRequest = false;
+    latestKnowLat = null;
+    latestKnowLon = null;
     try {
       chrome.webRequest.onCompleted.removeListener(Listener);
     } catch (e) {
@@ -62,8 +69,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     chrome.webRequest.onCompleted.addListener(
       Listener,
-      { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] },
-      ["responseHeaders"]
+      { urls: ["https://maps.googleapis.com/maps/api/js/GeoPhotoService.GetMetadata?*"] }
     );
     sendResponse({ status: "Listener restarted" });
   }
