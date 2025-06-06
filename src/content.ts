@@ -1,5 +1,5 @@
-import countryCodeMap from "./alpha3hash";
-import countryCodeMapISO3166 from "./alpha2hash";
+import countryCodeMap from "./AlphaHash/alpha3hash";
+import countryCodeMapISO3166 from "./AlphaHash/alpha2hash";
 import getMapString from "./map";
 
 let zoom = 10;
