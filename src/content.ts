@@ -3,7 +3,15 @@ import countryCodeMapISO3166 from "./alpha2hash";
 import getMapString from "./map";
 
 let zoom = 5;
-
+function PlaceCountryInStorage(fullCountry,lat,lon)
+{
+  chrome.storage.local.set({
+        detectedCountry: fullCountry,
+        mapstringS: getMapString(lat, lon, zoom)
+      }, () => {
+        console.log("Saved country and mapstring to storage");
+      });
+}
 chrome.runtime.onMessage.addListener(async (request, sender) => {
   if (request.action === "geocode") {
     const { lat, lon } = request;
@@ -28,12 +36,7 @@ chrome.runtime.onMessage.addListener(async (request, sender) => {
       const fullCountry = countryCodeMapISO3166[countryCode] || countryCode || "Unknown";
       console.log("Detected country:", fullCountry);
 
-      chrome.storage.local.set({
-        detectedCountry: fullCountry,
-        mapstringS: getMapString(lat, lon, zoom)
-      }, () => {
-        console.log("Saved country and mapstring to storage");
-      });
+      PlaceCountryInStorage(fullCountry,lat,lon)
     } catch (error) {
       console.error("Geocode fetch error:", error);
     }

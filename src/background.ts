@@ -1,7 +1,20 @@
 let latestKnowLat: number | null = null;
 let latestKnowLon: number | null = null;
 const offset: number = 0.5;
+import { SendMessageAboutGeoCode } from "./MessageCenter";
 let hasSeenGeoRequest = false;
+
+async function GetLongAndLat(response)
+{
+  const text = await response.text();
+    const match = text.match(/(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/);
+    if (!match) {
+      console.warn("No lat/lon match found in response body");
+      return;
+    }
+    return match;
+}
+
 async function Listener(details) {
   if (hasSeenGeoRequest) return;
   hasSeenGeoRequest = true;
@@ -14,28 +27,15 @@ async function Listener(details) {
       return;
     }
 
-    const text = await response.text();
-    const match = text.match(/(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/);
-    if (!match) {
-      console.warn("No lat/lon match found in response body");
-      return;
-    }
-
-    const lat = parseFloat(match[1]);
-    const lon = parseFloat(match[2]);
+    const data = await GetLongAndLat(response)
+    const lat = parseFloat(data[1]);
+    const lon = parseFloat(data[2]);
     hasSeenGeoRequest = false;
     if (latestKnowLat !== null &&latestKnowLon !== null && Math.abs(lat - latestKnowLat) < offset &&Math.abs(lon - latestKnowLon) < offset) {
       return;
     }
     else{
-      const tabId = details.tabId;
-      if (tabId >= 0) {
-        chrome.tabs.sendMessage(tabId, {
-          action: "geocode",
-          lat,
-          lon
-        });
-      }
+    SendMessageAboutGeoCode(lat,lon,details)  
     latestKnowLat = lat;
     latestKnowLon = lon;
     return;
@@ -74,3 +74,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse({ status: "Listener restarted" });
   }
 });
+

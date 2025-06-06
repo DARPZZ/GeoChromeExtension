@@ -1,0 +1,1 @@
+(()=>{"use strict";var e;e={},Object.defineProperty(e,"__esModule",{value:!0}),e.SendMessageAboutGeoCode=function(e,o,t){const s=t.tabId;s>=0&&chrome.tabs.sendMessage(s,{action:"geocode",lat:e,lon:o})}})();
