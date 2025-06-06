@@ -15,6 +15,12 @@ async function GetLongAndLat(response)
     return match;
 }
 
+function CheckNullValuesOnLatestLocation()
+{
+  if(latestKnowLat !== null &&latestKnowLon !== null )
+  {return true;}else{return false;}
+}
+
 async function Listener(details) {
   if (hasSeenGeoRequest) return;
   hasSeenGeoRequest = true;
@@ -31,16 +37,19 @@ async function Listener(details) {
     const lat = parseFloat(data[1]);
     const lon = parseFloat(data[2]);
     hasSeenGeoRequest = false;
-    if (latestKnowLat !== null &&latestKnowLon !== null && Math.abs(lat - latestKnowLat) < offset &&Math.abs(lon - latestKnowLon) < offset) {
-      return;
+    if(CheckNullValuesOnLatestLocation)
+    {
+      if (Math.abs(lat - latestKnowLat) < offset &&Math.abs(lon - latestKnowLon) < offset)
+      {
+        return;
+      }
+      else{
+        SendMessageAboutGeoCode(lat,lon,details)  
+        latestKnowLat = lat;
+        latestKnowLon = lon;
+        return;
+      }
     }
-    else{
-    SendMessageAboutGeoCode(lat,lon,details)  
-    latestKnowLat = lat;
-    latestKnowLon = lon;
-    return;
-    }
-
   } catch (error) {
     console.error("Error in Listener:", error);
   }
