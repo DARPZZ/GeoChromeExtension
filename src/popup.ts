@@ -31,14 +31,4 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("frame").setAttribute('src', `${changes.mapstringS.newValue}`)
       }
     });
-
-    document.getElementById("messageButton").addEventListener("click", () => {
-      chrome.runtime.sendMessage({ action: "startListening" }, (response) => {
-        if (chrome.runtime.lastError) {
-          console.log("Error sending message:", chrome.runtime.lastError);
-        } else {
-          console.log(response?.status || "No response");
-        }
-      });
-    });
 });
