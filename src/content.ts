@@ -2,7 +2,7 @@ import countryCodeMap from "./AlphaHash/alpha3hash";
 import countryCodeMapISO3166 from "./AlphaHash/alpha2hash";
 import getMapString from "./map";
 
-let zoom = 10;
+let zoom = 5;
 function PlaceCountryInStorage(fullCountry,lat,lon)
 {
   chrome.storage.local.set({
