@@ -34,9 +34,9 @@ async function Listener(details) {
     }
 
     const data = await GetLongAndLat(response)
+    if(data === null){return}
     const lat = parseFloat(data[1]);
     const lon = parseFloat(data[2]);
-    hasSeenGeoRequest = false;
     if(CheckNullValuesOnLatestLocation)
     {
       if (Math.abs(lat - latestKnowLat) < offset &&Math.abs(lon - latestKnowLon) < offset)
@@ -47,6 +47,7 @@ async function Listener(details) {
         SendMessageAboutGeoCode(lat,lon,details)  
         latestKnowLat = lat;
         latestKnowLon = lon;
+        hasSeenGeoRequest = false;
         return;
       }
     }
