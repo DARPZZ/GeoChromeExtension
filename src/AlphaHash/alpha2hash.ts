@@ -191,6 +191,7 @@ const countryCodeMapAlpha2: { [key: string]: string } = {
   "TZ": "Tanzania, United Republic of",
   "TN": "Tunisia",
   "TM": "Turkmenistan",
+  "TR": "Turkey",
   "UZ": "Uzbekistan"
 };
 

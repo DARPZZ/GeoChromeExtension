@@ -172,7 +172,8 @@ const countryCodeMap: { [key: string]: string } = {
     "LKA": "Sri Lanka",
     "ROU": "Romania",
     "SVK": "Slovakia",
-    "ESP": "Spain"
+    "ESP": "Spain",
+    "TUR": "Turkey",
   };
   
   export default countryCodeMap;
