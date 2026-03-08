@@ -39,7 +39,7 @@ This browser extension enhances your GeoGuessr gameplay by showing the current l
 #### 🦊 Mozilla Firefox
 
 1. Open this link on Firefox to install the extension directly (No need to download from github):  
-`https://addons.mozilla.org/firefox/downloads/file/4508807/b6d5ab0b0efc4dc480b2-1.2.1.xpi`
+`https://addons.mozilla.org/firefox/downloads/file/4506631/b6d5ab0b0efc4dc480b2-1.1.3.xpi`
 
 #### 🧿 Microsoft Edge
 
